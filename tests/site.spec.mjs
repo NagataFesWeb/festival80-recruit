@@ -5,6 +5,12 @@ test("recruitment, keyboard navigation, game completion and replay", async ({
 }) => {
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  await page.route("**/config.js", (route) =>
+    route.fulfill({
+      contentType: "text/javascript",
+      body: "window.RECRUIT_CONFIG={googleFormUrl:'',lineOpenChatUrl:''};",
+    }),
+  );
   await page.goto("/");
   await expect(page).toHaveTitle(/第80代文化祭/);
   await page
@@ -49,21 +55,19 @@ test("recruitment, keyboard navigation, game completion and replay", async ({
 test("configured destinations link to the supplied services", async ({
   page,
 }) => {
-  await page.route("**/config.js", (route) =>
-    route.fulfill({
-      contentType: "text/javascript",
-      body: "window.RECRUIT_CONFIG={googleFormUrl:'https://forms.gle/example',lineOpenChatUrl:'https://line.me/ti/g2/example'};",
-    }),
-  );
   await page.goto("/");
   await expect(page.locator('[data-join="form"]')).toHaveAttribute(
     "href",
-    "https://forms.gle/example",
+    "https://forms.gle/K3Dv2pyDCgGowLHS9",
   );
   await expect(page.locator('[data-join="line"]')).toHaveAttribute(
     "href",
-    "https://line.me/ti/g2/example",
+    "https://line.me/ti/g2/EqxCJzpGziyE70LRw105mZcsFbgGJ-V2h0IkcQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
   );
+  for (const service of ["form", "line"]) {
+    await expect(page.locator(`[data-join="${service}"]`)).toHaveAttribute("target", "_blank");
+    await expect(page.locator(`[data-join="${service}"]`)).toHaveAttribute("rel", "noopener noreferrer");
+  }
   await expect(page.locator("#link-status")).not.toContainText("準備中");
 });
 
