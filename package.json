@@ -4,13 +4,16 @@
   "private": true,
   "description": "第80代文化祭 WEBサイト開発班募集ページ",
   "scripts": {
+    "preinstall": "node scripts/check-node.cjs",
+    "predev": "node scripts/check-node.cjs",
+    "prebuild": "node scripts/check-node.cjs",
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "check": "node --check app.js && node --check config.js && node --check scripts/build.mjs && node --check scripts/serve.mjs",
     "test": "playwright test"
   },
   "engines": {
-    "node": ">=22"
+    "node": "^22.23.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1"

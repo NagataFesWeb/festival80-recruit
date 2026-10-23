@@ -18,6 +18,8 @@
 
 単一ページのHTML、CSS、JavaScript。データベース・応募受付そのものは含まない。応募情報はGoogleフォームへ、質問はLINEへ委ねる。実行コマンドはAGENTS.md参照。
 
+Node.jsは22.23.4以上の22系を使用する。`.nvmrc` / `.node-version` と `engines.node` で指定し、インストール・開発・ビルド時に `scripts/check-node.cjs` が旧版を拒否する。CIは `.nvmrc` を参照し、実行版をログに残す。静的公開先にNode.jsランタイムはない。
+
 ブラウザテストは応募先の未設定・設定済み状態、FAQ、動き停止、ゲーム終了・再開・スコア保存、代表幅の横溢れを確認する。撮影画像は `artifacts/` に保存しGit管理しない。
 
 ## 未確定
